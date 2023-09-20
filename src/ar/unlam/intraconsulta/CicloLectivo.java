@@ -1,38 +1,40 @@
 package ar.unlam.intraconsulta;
 
+import java.time.LocalDate;
+
 public class CicloLectivo {
 
-		private Integer fechaInicio;
-		private Integer fechaFin;
-		private Integer fechaInscripcion;
+		private LocalDate fechaInicio;
+		private LocalDate fechaFin;
+		private LocalDate fechaInscripcion;
 		
-		public CicloLectivo(Integer fechaInicio, Integer fechaFin, Integer fechaInscripcion) {
-			this.setFechaInicio(fechaInicio);
-			this.setFechaFin(fechaFin);
-			this.setFechaInscripcion(fechaInscripcion);
+		public CicloLectivo(LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaInscripcion) {
+			this.fechaInicio = fechaInicio;
+			this.fechaFin = fechaFin;
+			this.fechaInscripcion = fechaInscripcion;
 		}
 
-		public Integer getFechaInicio() {
+		public LocalDate getFechaInicio() {
 			return fechaInicio;
 		}
 
-		public void setFechaInicio(Integer fechaInicio) {
+		public void setFechaInicio(LocalDate fechaInicio) {
 			this.fechaInicio = fechaInicio;
 		}
 
-		public Integer getFechaFin() {
+		public LocalDate getFechaFin() {
 			return fechaFin;
 		}
 
-		public void setFechaFin(Integer fechaFin) {
+		public void setFechaFin(LocalDate fechaFin) {
 			this.fechaFin = fechaFin;
 		}
 
-		public Integer getFechaInscripcion() {
+		public LocalDate getFechaInscripcion() {
 			return fechaInscripcion;
 		}
 
-		public void setFechaInscripcion(Integer fechaInscripcion) {
+		public void setFechaInscripcion(LocalDate fechaInscripcion) {
 			this.fechaInscripcion = fechaInscripcion;
 		}
 		

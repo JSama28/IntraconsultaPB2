@@ -7,9 +7,9 @@ public class Alumno {
 	private String nombre;
 
 	public Alumno(Integer dni, String apellido, String nombre) {
-	this.dni=dni;
-	this.apellido=apellido;
-	this.nombre=nombre;
+		this.dni=dni;
+		this.apellido=apellido;
+		this.nombre=nombre;
 	}
 
 	public Integer getDni() {
@@ -36,6 +36,6 @@ public class Alumno {
 		this.nombre = nombre;
 	}
 
-	
-	
+
+
 }

@@ -2,6 +2,8 @@ package ar.unlam.intraconsulta;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Test;
 
 public class TestUniversidad {
@@ -89,7 +91,14 @@ public class TestUniversidad {
 
 	@Test
 	public void agregarCicloLectivo() {
+		LocalDate inicio = LocalDate.of(2023, 2, 1);
+		LocalDate fin = LocalDate.of(2023, 3, 1);
+		LocalDate inscripcion = LocalDate.of(2022, 12, 1);
 		
+		Universidad unlam = new Universidad("UNLaM");
+		
+		unlam.agregarCicloLectivo(inicio, fin, inscripcion);
+		assertFalse(unlam.agregarCicloLectivo(inicio, fin, inscripcion));
 	}
 
 	@Test
