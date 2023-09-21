@@ -1,14 +1,22 @@
 package ar.unlam.intraconsulta;
 
-public class InscripcionMateria {
-
+public class Examen {
+	private Integer nota;
 	private Alumno alumno;
 	private Materia materia;
-	private Integer nota;
-
-	public InscripcionMateria(Alumno alumno, Materia materia) {
-		this.alumno=alumno;
+	
+	public Examen(Materia materia, Alumno alumno, Integer nota) {
 		this.materia = materia;
+		this.alumno = alumno;
+		this.nota = nota;
+	}
+
+	public Integer getNota() {
+		return nota;
+	}
+
+	public void setNota(Integer nota) {
+		this.nota = nota;
 	}
 
 	public Alumno getAlumno() {
@@ -26,14 +34,4 @@ public class InscripcionMateria {
 	public void setMateria(Materia materia) {
 		this.materia = materia;
 	}
-
-	public Integer getNota() {
-		return nota;
-	}
-
-	public void setNota(Integer nota) {
-		this.nota = nota;
-	}
-	
-	
 }

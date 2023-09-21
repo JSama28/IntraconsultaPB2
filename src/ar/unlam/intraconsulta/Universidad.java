@@ -72,7 +72,7 @@ public class Universidad {
 		return false;
 	} 
 
-	public boolean inscribirAlumnoAUnaMateria(Integer dni, Integer codigo) {
+	public Boolean inscribirAlumnoAUnaMateria(Integer dni, Integer codigo) {
 	
 		Alumno alumno = this.buscarAlumnoPorDni(dni);
 		Materia materia = this.buscarMateriaPorCodigo(codigo);
@@ -92,6 +92,21 @@ public class Universidad {
 		}
 		return null;
 	}
+	
+	public Boolean agregarComision(Comision comision) {
+		Integer codigoMateria = comision.getCodigoMateria();
+		Materia materia = buscarMateriaPorCodigo(codigoMateria);
+		
+		Boolean existeLaMateria = materia != null;
+		Boolean noTieneEsaComision = materia.tieneLaMismaComision(comision) == false;
+		
+		if(existeLaMateria && noTieneEsaComision) {
+			return materia.agregarComision(comision);
+		}
+		return false; 
+	}
+	
+
 	
 	
 

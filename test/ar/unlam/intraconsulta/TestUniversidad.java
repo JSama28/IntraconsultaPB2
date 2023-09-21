@@ -10,78 +10,78 @@ public class TestUniversidad {
 
 	@Test
 	public void queSePuedaRegistrarUnAlumnoAUnaUniversidad() {
-		 String  nombre = "Unlam";
-    	Universidad unlam = new Universidad (nombre);
-    	nombre = "Marta";
-    	String apellido = "perez";
-    	Integer dni= 44555; 
-    	Alumno alumno = new Alumno (dni,apellido, nombre);
+		String  nombre = "Unlam";
+		Universidad unlam = new Universidad (nombre);
+		nombre = "Marta";
+		String apellido = "perez";
+		Integer dni= 44555; 
+		Alumno alumno = new Alumno (dni,apellido, nombre);
 		Boolean registroExitoso = unlam.registrar(alumno);
-    	assertTrue(registroExitoso);
-    	
-    	
+		assertTrue(registroExitoso);
+
+
 	}
-	
-	
+
+
 	@Test
 	public void queNoSePuedaRegistrarUnAlumnoCuandoElAlumnoYaEsteRegistradoAUnaUniversidad() {
-		 String  nombre = "Unlam";
-    	Universidad unlam = new Universidad (nombre);
-    	nombre = "Marta";
-    	String apellido = "perez";
-    	Integer dni= 44555; 
-    	Alumno alumno = new Alumno (dni,apellido, nombre);
-    	Alumno alumno2 = new Alumno (dni,"jose", "Lopez");
-    	unlam.registrar(alumno);
+		String  nombre = "Unlam";
+		Universidad unlam = new Universidad (nombre);
+		nombre = "Marta";
+		String apellido = "perez";
+		Integer dni= 44555; 
+		Alumno alumno = new Alumno (dni,apellido, nombre);
+		Alumno alumno2 = new Alumno (dni,"jose", "Lopez");
+		unlam.registrar(alumno);
 		Boolean registroExitoso = unlam.registrar(alumno2);
-    	assertFalse(registroExitoso);
-    	
-    	
+		assertFalse(registroExitoso);
+
+
 	}
-	
+
 	@Test
 	public void queSePuedaRegistrarUnaMateriaAUnaUniversidad() {
-		 String  nombre = "Unlam";
-    	Universidad unlam = new Universidad (nombre);
-    	nombre = "PB2 ";
-        Integer codigo = 1;
-        Materia pb2 = new Materia (codigo,nombre);
-        assertTrue (unlam.registrarMateria(pb2));
-    	       
+		String  nombre = "Unlam";
+		Universidad unlam = new Universidad (nombre);
+		nombre = "PB2 ";
+		Integer codigo = 1;
+		Materia pb2 = new Materia (codigo,nombre);
+		assertTrue (unlam.registrarMateria(pb2));
+
 	}
-	
-	
-	
+
+
+
 	@Test
 	public void queSePuedaInscribirUnAlumnoenMateria() {
-		 String  nombre = "Unlam";
-    	Universidad unlam = new Universidad (nombre);
-    	nombre = "PB2 ";
-        Integer codigo = 1;
-        Materia pb2 = new Materia (codigo,nombre);
-        unlam.registrarMateria(pb2);
-     	nombre = "Marta";
-    	String apellido = "perez";
-    	Integer dni= 44555; 
-        Alumno alumno = new Alumno (dni,apellido, nombre);
-    	unlam.registrar(alumno);
-    	assertTrue (unlam.inscribirAlumnoAUnaMateria(dni,codigo)) ;
-    	       
+		String  nombre = "Unlam";
+		Universidad unlam = new Universidad (nombre);
+		nombre = "PB2 ";
+		Integer codigo = 1;
+		Materia pb2 = new Materia (codigo,nombre);
+		unlam.registrarMateria(pb2);
+		nombre = "Marta";
+		String apellido = "perez";
+		Integer dni= 44555; 
+		Alumno alumno = new Alumno (dni,apellido, nombre);
+		unlam.registrar(alumno);
+		assertTrue (unlam.inscribirAlumnoAUnaMateria(dni,codigo)) ;
+
 	}
-	
+
 	@Test
 	public void agregarMateria() {
-	//No se puede agregar 2 materias con mismo Id
-		 Materia computacion = new Materia (1,"Computacion");
-		 Materia ingles = new Materia (1,"Ingles");
-		 Universidad unlam = new Universidad ("UNLaM");
-		 unlam.registrarMateria(computacion);
-		 assertFalse(unlam.registrarMateria(ingles));
+		//No se puede agregar 2 materias con mismo Id
+		Materia computacion = new Materia (1,"Computacion");
+		Materia ingles = new Materia (1,"Ingles");
+		Universidad unlam = new Universidad ("UNLaM");
+		unlam.registrarMateria(computacion);
+		assertFalse(unlam.registrarMateria(ingles));
 	}
-	
+
 	@Test
 	public void agregarAlumno() {
-	//No se puede agregar 2 alumnos con mismo Dni
+		//No se puede agregar 2 alumnos con mismo Dni
 		Alumno nico = new Alumno(3425,"Ciri","Nicolas");
 		Alumno javier = new Alumno(3425,"Taura","Javier");
 		Universidad unlam = new Universidad("UNLaM");
@@ -94,22 +94,31 @@ public class TestUniversidad {
 		LocalDate inicio = LocalDate.of(2023, 2, 1);
 		LocalDate fin = LocalDate.of(2023, 3, 1);
 		LocalDate inscripcion = LocalDate.of(2022, 12, 1);
-		
+
 		Universidad unlam = new Universidad("UNLaM");
-		
+
 		unlam.agregarCicloLectivo(inicio, fin, inscripcion);
 		assertFalse(unlam.agregarCicloLectivo(inicio, fin, inscripcion));
 	}
 
 	@Test
 	public void agregarComision() {
-	//No se Pueden generar 2 Comisiones para la misma materia, el mismo cicloLectivo y el mismo turno
-		 Materia ingles = new Materia (1,"Ingles");
-		 Universidad unlam = new Universidad ("UNLaM");
-		 
+		//No se Pueden generar 2 Comisiones para la misma materia, el mismo cicloLectivo y el mismo turno
+		Integer codigoMateria = 1;
+		Materia ingles = new Materia (codigoMateria, "Ingles");
+		Universidad unlam = new Universidad ("UNLaM");
+		unlam.registrarMateria(ingles);
+
+		CicloLectivo anio2020 = new CicloLectivo(LocalDate.now(),LocalDate.now(),LocalDate.now());
+		
+		Comision comision3 = new Comision(3, anio2020, codigoMateria, Turno.Mañana);
+		assertTrue(unlam.agregarComision(comision3));
+		
+		Comision comision4 =  new Comision(4, anio2020, codigoMateria, Turno.Mañana);
+		assertFalse(unlam.agregarComision(comision4));
 	}
-	
-/*	agregarDocentes
+
+	/*	agregarDocentes
 	//No se puede agregar 2 docentes con el mismo dni
 
 	asignarDocentesAComision
@@ -154,14 +163,14 @@ public class TestUniversidad {
 
 	calcularPromedio(idAlumno)
 
-	
-	
-	*/
-	
-	
-	
-	
 
-	
+
+	 */
+
+
+
+
+
+
 
 }
