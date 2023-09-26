@@ -2,7 +2,6 @@ package ar.unlam.intraconsulta;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Universidad {
 
@@ -12,13 +11,17 @@ public class Universidad {
 	private ArrayList<Materia> materias;
 	private ArrayList <InscripcionMateria> inscripcionesMateria;
 	private ArrayList <CicloLectivo> ciclosLectivos;
-
+	private ArrayList <Profesor> profesores;
+	private ArrayList <Comision> comisiones;
+	
 	public Universidad(String nombre) {
 		this.nombre = nombre;
 		this.alumnos = new ArrayList<Alumno>();
 		this.materias = new ArrayList<>();
 		this.inscripcionesMateria = new ArrayList<>();
 		this.ciclosLectivos = new ArrayList <>();
+		this.profesores = new ArrayList <>();
+		this.comisiones = new ArrayList <>();
 	}
 
 	public Boolean agregarCicloLectivo(LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaInscripcion) {
@@ -65,13 +68,38 @@ public class Universidad {
 		return false;
 	}
 
+	public Boolean registrarProfesor(Profesor profesor) {
+		if (buscarProfesorPorDni(profesor.getDni()) == null)
+			return this.profesores.add(profesor);
+
+		return false;
+	}
+
+	public Profesor buscarProfesorPorDni(Integer dni) {
+		for (int i = 0; i < profesores.size(); i++) {
+			if (this.profesores.get(i).getDni().equals(dni))
+				return this.profesores.get(i);
+		}
+		
+		return null;
+	}
+	
+	public Comision buscarComisionPorId(Integer id) {
+		for (int i = 0; i < comisiones.size(); i++) {
+			if (this.comisiones.get(i).getComisionId().equals(id))
+				return this.comisiones.get(i);
+		}
+		
+		return null;
+	}
+		
 	public Boolean registrarMateria(Materia materia) {
-		if(this.buscarMateriaPorCodigo(materia.getCodigo()) == null) {
+		if(this.buscarMateriaPorCodigo(materia.getCodigoMateria()) == null) {
 			return this.materias.add(materia); 	
 		}
 		return false;
 	} 
-
+	
 	public Boolean inscribirAlumnoAUnaMateria(Integer dni, Integer codigo) {
 	
 		Alumno alumno = this.buscarAlumnoPorDni(dni);
@@ -87,7 +115,7 @@ public class Universidad {
 
 	private Materia buscarMateriaPorCodigo(Integer codigo) {
 		for (int i = 0; i < this.materias.size(); i++) {
-			if (this.materias.get(i).getCodigo().equals(codigo))
+			if (this.materias.get(i).getCodigoMateria().equals(codigo))
 				return this.materias.get(i);
 		}
 		return null;
@@ -106,7 +134,37 @@ public class Universidad {
 		return false; 
 	}
 	
+/*	public Boolean tieneLaMismaComision(Comision comision) {
+		for (int i = 0; i < comisiones.size(); i++) {
+			Comision comisionFor = this.comisiones.get(i);
+			Boolean mismaMateria = comisionFor.getCodigoMateria() == comision.getCodigoMateria();
+			Boolean mismoCiclo = comisionFor.getCicloLectivo().getFechaInicio() == comision.getCicloLectivo().getFechaInicio();
+			Boolean mismoTurno =  comisionFor.getTurno() == comision.getTurno();
+			Boolean mismoProfesor = comisionFor.getProfesores() == comision.getProfesores();
+			
+			if (mismaMateria && mismoCiclo && mismoTurno && mismoProfesor)
+				return true;
+		}
+		
+		return false;
+	}
 
+*/	
+
+	public Boolean agregarProfesorAComision(Integer dniProf, Comision comision) {
+		
+		//Comision comision = buscarComisionPorId(comisionId);
+		Profesor profe = buscarProfesorPorDni(dniProf);
+		
+		Boolean existeLaComision = comision != null;
+		Boolean existeElProfeEnLaUni = profe != null;
+		Boolean noTieneEsaComision = profe.tieneLaMismaComision(comision) == false;
+		
+		if(existeLaComision && existeElProfeEnLaUni && noTieneEsaComision) {
+			return comision.agregarProfesorAComision(profe);
+		}
+		return false; 
+	}
 	
 	
 

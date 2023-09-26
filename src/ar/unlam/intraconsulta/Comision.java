@@ -78,6 +78,9 @@ public class Comision {
 		this.turno = turno;
 	}
 	
+	public Boolean agregarProfesorAComision(Profesor profesor) {
+		return profesores.add(profesor);
+	}
 	
 	
 }

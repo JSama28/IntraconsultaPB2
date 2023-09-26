@@ -4,24 +4,25 @@ import java.util.ArrayList;
 
 public class Materia {
 
-
-
-	private Integer codigo;
+	private Integer codigoMateria;
 	private String nombre;
-	private ArrayList<Comision> comisiones;
+	private ArrayList <Comision> comisiones;
+	private ArrayList <Integer> idCorrelativas;
 	
-	public Materia(Integer codigo, String nombre) {
-		this.codigo =codigo;
+	public Materia(Integer codigoMateria, String nombre) {
+		this.codigoMateria =codigoMateria;
 		this.nombre=nombre;
 		this.comisiones = new ArrayList<>();
+		this.idCorrelativas = new ArrayList<>();
+		
 	}
 
-	public Integer getCodigo() {
-		return codigo;
+	public Integer getCodigoMateria() {
+		return codigoMateria;
 	}
 
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setCodigoMateria(Integer codigoMateria) {
+		this.codigoMateria = codigoMateria;
 	}
 
 	public String getNombre() {
@@ -67,6 +68,9 @@ public class Materia {
 		
 		return false;
 	}
-
+	
+	public Boolean agregarCorrelatividad(Integer codigoMateria,  Integer idCorrelativa) {
+		return this.agregarCorrelatividad(codigoMateria, idCorrelativa);
+	}
 	
 }
