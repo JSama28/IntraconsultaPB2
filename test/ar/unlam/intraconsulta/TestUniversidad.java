@@ -109,88 +109,126 @@ public class TestUniversidad {
 		Universidad unlam = new Universidad ("UNLaM");
 		unlam.registrarMateria(ingles);
 		CicloLectivo anio2020 = new CicloLectivo(LocalDate.now(),LocalDate.now(),LocalDate.now());
-		
+
 		Comision comision3 = new Comision(3, anio2020, codigoMateria, Turno.Mañana);
 		assertTrue(unlam.agregarComision(comision3));
-		
+
 		Comision comision4 =  new Comision(4, anio2020, codigoMateria, Turno.Mañana);
 		assertFalse(unlam.agregarComision(comision4));
 	}*/
 
 	@Test
 	public void agregarProfesor(){
-	//No se puede agregar 2 docentes con el mismo dni */
-	 
-	 	Profesor nico = new Profesor(3425,"Ciri","Nicolas");
+		//No se puede agregar 2 docentes con el mismo dni */
+
+		Profesor nico = new Profesor(3425,"Ciri","Nicolas");
 		Profesor javier = new Profesor(3425,"Taura","Javier");
 		Universidad unlam = new Universidad("UNLaM");
 		unlam.registrarProfesor(javier);
-	 	assertFalse(unlam.registrarProfesor(nico));
+		assertFalse(unlam.registrarProfesor(nico));
 	}
-	 
+
 	@Test
 	public void asignarProfesorAComision() {
-	//El mismo docente no puede ser profesor de la misma comisión 2 veces.
+		//El mismo docente no puede ser profesor de la misma comisión 2 veces.
 
 		Integer dniProfe = 3425;
 		Profesor javier = new Profesor(dniProfe,"Taura","Javier");
 		Universidad unlam = new Universidad("UNLaM");
-		
+
 		unlam.registrarProfesor(javier);
-		
+
 		Materia ingles = new Materia (1, "Ingles");
 		unlam.registrarMateria(ingles);
-		
+
 		CicloLectivo anio2020 = new CicloLectivo(LocalDate.now(),LocalDate.now(),LocalDate.now());
 		Integer comisionId = 3;
-		Comision comision3 = new Comision(comisionId, anio2020, 1, Turno.Mañana);
+		Aula aula = new Aula(1, 10);
+		Comision comision3 = new Comision(comisionId, anio2020, 1, Turno.Mañana, aula);
 		unlam.agregarComision(comision3);
-		
-		assertTrue(unlam.agregarProfesorAComision(dniProfe, comision3));
-		assertFalse(unlam.agregarProfesorAComision(dniProfe, comision3));
-		
+
+		assertTrue(unlam.agregarProfesorAComision(dniProfe, comisionId));
+		assertFalse(unlam.agregarProfesorAComision(dniProfe, comisionId));
+
 	}
-	
-	
+
+
 	@Test
-	  public void agregarCorrelatividad(Integer codigoMateria,  Integer idCorrelativa) {
-	//Se debe validar que ambos códigos existan en una materia
-	 	
-	 
-	 
-	 }
+	public void agregarCorrelatividad() {
+		//Se debe validar que ambos códigos existan en una materia
+		Universidad unlam = new Universidad("UNLaM");
 
+		Materia ingles = new Materia (1, "Ingles");
+		unlam.registrarMateria(ingles);
+		Materia ingles2 = new Materia (2, "Ingles 2");
+		unlam.registrarMateria(ingles2);
+		
+		assertTrue(unlam.agregarCorrelatividad(2,1));
+		assertFalse(unlam.agregarCorrelatividad(2, 73));
+		assertFalse(unlam.agregarCorrelatividad(55, 81));
+	}
 
-
-	/*@Test
-	  public void eliminarCorrelatividad(idMateria, idCorrelativaAELiminar) */
+	@Test
+	public void eliminarCorrelatividad() {
 	//Se debe validar que esa correlatividad exista
+		Universidad unlam = new Universidad("UNLaM");
 
-	/*@Test
-	  public void inscribirAlumnoAComision (dni, idComision) {
+		Materia ingles = new Materia (1, "Ingles");
+		unlam.registrarMateria(ingles);
+		Materia ingles2 = new Materia (2, "Ingles 2");
+		unlam.registrarMateria(ingles2);
+		unlam.agregarCorrelatividad(2,1);
+		
+		assertTrue(unlam.eliminarCorrelatividad(2, 1));
+		assertFalse(unlam.eliminarCorrelatividad(2, 42));
+		assertFalse(unlam.eliminarCorrelatividad(3, 41));
+	}
+
+	@Test
+	  public void inscribirAlumnoAComision() {
 	 /* Verificar que el alumno y la comisión estén dados de alta
 	No se puede inscribir Alumnos si este no tiene aprobadas todas las correlativas. Se aprueba con 4 o más.
 	La inscripción no se puede realizar si esta fuera de fecha Inscripción
 	No se puede inscribir el alumno si excede la cantidad de alumnos permitidos en el aula
 	No se puede inscribir el Alumno si ya está inscripto a otra comisión el mismo día y Turno
 	No se puede inscribir a una materia que haya aprobado previamente */
+		Integer dniAlumno = 3425;
+		Alumno nico = new Alumno(dniAlumno,"Ciri","Nicolas");
+		Universidad unlam = new Universidad("UNLaM");
+		unlam.registrar(nico);
+		
+		
+		Materia ingles = new Materia (1, "Ingles");
+		unlam.registrarMateria(ingles);
+		Materia ingles2 = new Materia (2, "Ingles 2");
+		unlam.registrarMateria(ingles2);
+		unlam.agregarCorrelatividad(2,1);
 
-	/*  }
-	  */
-	
+		CicloLectivo anio2020 = new CicloLectivo(LocalDate.now(),LocalDate.now(),LocalDate.now());
+		Integer comisionId = 3;
+		Aula aula = new Aula(1, 10);
+		Comision comision3 = new Comision(comisionId, anio2020, 1, Turno.Mañana, aula);
+		
+		assertTrue(unlam.agregarComision(comision3));
+		assertTrue(unlam.inscribirAlumnoAComision(dniAlumno, comisionId));
+		assertFalse(unlam.inscribirAlumnoAComision(dniAlumno, comisionId));
+		
+	  }
+	 
+
 	/*@Test
 	  public void asignarProfesorAlaComision(idComision, dniDocente) {  
 	// verificar que exista la comisión y el docente
 	//Cada 20 alumnos se debe agregar un docente ejemplo de 1 a 20 alumnos solo se puede asignar un docente, de 21 a 40 2 docentes
 	}
-	*/
-	
+	 */
+
 	/*@Test
 	  public void asignarAulaAlaComision(idComision, dniDocente){
 	// verificar que exista la comisión y el docente
 	//Cada 20 alumnos se debe agregar un docente ejemplo de 1 a 20 alumnos solo se puede asignar un docente, de 21 a 40 2 docentes
 	}*/
-	
+
 	/*@Test
 	  public void registrarNota (idComision, idAlumno, nota){
 	// La nota debe estar entre 1 y 10
@@ -199,7 +237,7 @@ public class TestUniversidad {
 	//no puede rendir 2 recuperatorios, es solo 1.
 	//para cargar la nota final, debe tener aprobadas las parciales
 	}*/
-	
+
 	/*@Test
 	  public void obtenerMateriasAprobadasParaUnAlumno(idAlumno){
 	Debe devolver un arreglo de materias
@@ -208,16 +246,16 @@ public class TestUniversidad {
 	/*@Test
 	  public void obtenerNota(idAlumno, idMateria) {
 	} */
-	
-	
+
+
 	/*@Test
 	  public void obtenerMateriasQueFaltanCursarParaUnAlumno(idAlumno)
 	Debe devolver un arreglo de materias
 	} */
-	
+
 	/*@Test
 	  public void calcularPromedio(idAlumno){
-	  
+
 	  }
 
 

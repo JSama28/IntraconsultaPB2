@@ -9,6 +9,7 @@ public class Materia {
 	private ArrayList <Comision> comisiones;
 	private ArrayList <Integer> idCorrelativas;
 	
+	
 	public Materia(Integer codigoMateria, String nombre) {
 		this.codigoMateria =codigoMateria;
 		this.nombre=nombre;
@@ -69,8 +70,19 @@ public class Materia {
 		return false;
 	}
 	
-	public Boolean agregarCorrelatividad(Integer codigoMateria,  Integer idCorrelativa) {
-		return this.agregarCorrelatividad(codigoMateria, idCorrelativa);
+	public Boolean agregarCorrelatividad(Integer idCorrelativa) {
+		return this.idCorrelativas.add(idCorrelativa);
 	}
 	
+	public Boolean eliminarCorrelatividad(Integer idCorrelativa) {
+		return this.idCorrelativas.remove(idCorrelativa);
+	}
+
+	public ArrayList<Integer> getIdCorrelativas() {
+		return idCorrelativas;
+	}
+
+	public void setIdCorrelativas(ArrayList<Integer> idCorrelativas) {
+		this.idCorrelativas = idCorrelativas;
+	}
 }

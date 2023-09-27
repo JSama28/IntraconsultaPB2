@@ -8,11 +8,13 @@ public class Universidad {
 	// private Alumno [] alumnos;
 	private ArrayList<Alumno> alumnos;
 	private String nombre;
+
 	private ArrayList<Materia> materias;
 	private ArrayList <InscripcionMateria> inscripcionesMateria;
 	private ArrayList <CicloLectivo> ciclosLectivos;
 	private ArrayList <Profesor> profesores;
 	private ArrayList <Comision> comisiones;
+	private ArrayList<HistorialAcademico> historialAcademico;
 	
 	public Universidad(String nombre) {
 		this.nombre = nombre;
@@ -22,8 +24,18 @@ public class Universidad {
 		this.ciclosLectivos = new ArrayList <>();
 		this.profesores = new ArrayList <>();
 		this.comisiones = new ArrayList <>();
+		this.historialAcademico = new ArrayList <>();
 	}
 
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	public Boolean agregarCicloLectivo(LocalDate fechaInicio, LocalDate fechaFin, LocalDate fechaInscripcion) {
 		CicloLectivo ciclo = new CicloLectivo(fechaInicio, fechaFin, fechaInscripcion);
 		
@@ -151,9 +163,9 @@ public class Universidad {
 
 */	
 
-	public Boolean agregarProfesorAComision(Integer dniProf, Comision comision) {
+	public Boolean agregarProfesorAComision(Integer dniProf, Integer idComision) {
 		
-		//Comision comision = buscarComisionPorId(comisionId);
+		Comision comision = buscarComisionPorId(idComision);
 		Profesor profe = buscarProfesorPorDni(dniProf);
 		
 		Boolean existeLaComision = comision != null;
@@ -166,6 +178,69 @@ public class Universidad {
 		return false; 
 	}
 	
+	public Boolean agregarCorrelatividad(Integer codigoMateria, Integer idCorrelativa) {
+		Materia materia = buscarMateriaPorCodigo(codigoMateria);
+		
+		Boolean existeMateria = materia != null;
+		Boolean existeCorrelativa = buscarMateriaPorCodigo(idCorrelativa) != null;
+		
+		  if (existeMateria && existeCorrelativa) {
+		     return materia.agregarCorrelatividad(idCorrelativa);
+		   }
+		  return false;
+		} 
 	
+	public Boolean eliminarCorrelatividad(Integer codigoMateria, Integer idCorrelativa) {
+		Materia materia = buscarMateriaPorCodigo(codigoMateria);
+		Boolean existeMateria = materia != null;
+		Boolean existeCorrelativa = buscarMateriaPorCodigo(idCorrelativa) != null;
+		
+		if (existeMateria && existeCorrelativa) {
+	       return materia.eliminarCorrelatividad(idCorrelativa);
+		}
+		return false;
+	}
+	
+	public HistorialAcademico buscarHistorialAcademico(Integer dniAlumno, Integer codigoMateria) {
+		for (int i = 0; i < this.historialAcademico.size(); i++) {
+			Boolean esDelAlumno = this.historialAcademico.get(i).getDniAlumno().equals(dniAlumno);
+			Boolean esLaMateria = this.historialAcademico.get(i).getCodigoMateria().equals(codigoMateria);
+			
+			if (esDelAlumno && esLaMateria)
+				return this.historialAcademico.get(i);
+		}
+		return null;
+	}
+	
+	public Boolean inscribirAlumnoAComision (Integer dni, Integer idComision) {
+		Alumno alumno = buscarAlumnoPorDni(dni);
+		Comision comision = buscarComisionPorId(idComision);
+		Integer codigoMateria = comision.getCodigoMateria();
+		Materia materia = buscarMateriaPorCodigo(codigoMateria);
+		
+		Boolean existeAlumno = alumno != null;
+		Boolean existeComision = idComision != null;
+		Boolean existeLaMateria = materia != null;
+		Boolean aproboTodasLasCorrelativas = true;
+		Boolean noExcedeMaximoDeAlumnos = comision.getAlumnos().size() < comision.getAula().getCapacidadMaxima();
+		
+		// Chequeo si aprobo todas las correlativas
+		for(int i = 0; i<=materia.getIdCorrelativas().size(); i++) {
+			Integer idCorrelativa = materia.getIdCorrelativas().get(i);
+			HistorialAcademico historial = buscarHistorialAcademico(alumno.getDni(), idCorrelativa);
+			Boolean desaprobo = historial.getEstadoNota() == TipoNota.Desaprobado;
+			
+			if (desaprobo) {
+				aproboTodasLasCorrelativas = false;
+			}
+		}
 
+		if(existeAlumno && existeComision && existeLaMateria && aproboTodasLasCorrelativas && noExcedeMaximoDeAlumnos) {
+			return comision.inscribirAlumnoAComision(alumno);
+		}
+		
+		return false;
+	}
+	
+	
 }

@@ -11,8 +11,9 @@ public class Comision {
 	private ArrayList<Profesor> profesores;
 	private ArrayList<Examen> examenes;
 	private Turno turno;
+	private Aula aula;
 	
-	public Comision (Integer comisionId, CicloLectivo cicloLectivo, Integer codigoMateria, Turno turno) {
+	public Comision (Integer comisionId, CicloLectivo cicloLectivo, Integer codigoMateria, Turno turno, Aula aula) {
 		this.comisionId = comisionId;
 		this.alumnos = new ArrayList<Alumno>();
 		this.codigoMateria = codigoMateria;
@@ -20,6 +21,7 @@ public class Comision {
 		this.profesores = new ArrayList<Profesor>();
 		this.examenes = new ArrayList<Examen>();
 		this.turno = turno;
+		this.aula = aula;
 	}
 
 	public ArrayList<Alumno> getAlumnos() {
@@ -82,5 +84,15 @@ public class Comision {
 		return profesores.add(profesor);
 	}
 	
-	
+	public Boolean inscribirAlumnoAComision(Alumno alumno) {
+		return alumnos.add(alumno);
+	}
+
+	public Aula getAula() {
+		return aula;
+	}
+
+	public void setAula(Aula aula) {
+		this.aula = aula;
+	}
 }
